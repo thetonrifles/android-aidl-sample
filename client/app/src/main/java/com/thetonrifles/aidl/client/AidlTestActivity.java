@@ -21,21 +21,21 @@ public class AidlTestActivity extends ActionBarActivity {
 
     // ui elements
     private Button mButtonGetTime;
+    private Button mButtonShowToast;
 
-    // aidl service connection and binder
+    // aidl service connection and binder for simple service
     private IRemoteServiceBinder mRemoteServiceBinder;
     private ServiceConnection mRemoteServiceConnection;
-
-    // aidl service is bounded?
-    private boolean mBound;
+    private boolean mRemoteServiceBound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aidl_test);
 
-        mBound = false;
+        mRemoteServiceBound = false;
 
+        // configuring buttons for invoking service
         mButtonGetTime = (Button) findViewById(R.id.btn_get_current_time);
         mButtonGetTime.setOnClickListener(new View.OnClickListener() {
 
@@ -55,12 +55,31 @@ public class AidlTestActivity extends ActionBarActivity {
 
         });
 
+        mButtonShowToast = (Button) findViewById(R.id.btn_show_toast);
+        mButtonShowToast.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                try {
+                    if (mRemoteServiceBinder != null) {
+                        // invoking remote method through aidl interface
+                        mRemoteServiceBinder.showToast();
+                    }
+                } catch (RemoteException ex) {
+                    Log.e(LOG_TAG, "remote exception");
+                    Log.e(LOG_TAG, ex.getMessage(), ex);
+                }
+            }
+
+        });
+
+        // building connection for simple service
         mRemoteServiceConnection = new ServiceConnection() {
 
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
                 Log.d(LOG_TAG, "remote service connected");
-                mBound = true;
+                mRemoteServiceBound = true;
                 // getting access to aidl interface after connecting to server
                 mRemoteServiceBinder = IRemoteServiceBinder.Stub.asInterface(service);
             }
@@ -68,7 +87,7 @@ public class AidlTestActivity extends ActionBarActivity {
             @Override
             public void onServiceDisconnected(ComponentName name) {
                 Log.d(LOG_TAG, "remote service disconnected for unspecified cause");
-                mBound = false;
+                mRemoteServiceBound = false;
             }
 
         };
@@ -79,8 +98,8 @@ public class AidlTestActivity extends ActionBarActivity {
         super.onStart();
         // opening connection every time activity is started
         Log.d(LOG_TAG, "on start");
-        if (!mBound) {
-            Log.d(LOG_TAG, "binding service");
+        if (!mRemoteServiceBound) {
+            Log.d(LOG_TAG, "binding remote service");
             Intent intent = new Intent();
             intent.setClassName("com.thetonrifles.aidl.server", "com.thetonrifles.aidl.server.RemoteService");
             bindService(intent, mRemoteServiceConnection, Service.BIND_AUTO_CREATE);
@@ -92,7 +111,7 @@ public class AidlTestActivity extends ActionBarActivity {
         super.onStop();
         // closing connection every time activity is stopped
         Log.d(LOG_TAG, "on stop");
-        if (mBound) {
+        if (mRemoteServiceBound) {
             Log.d(LOG_TAG, "remote service regularly disconnected");
             unbindService(mRemoteServiceConnection);
         }

@@ -2,5 +2,6 @@
 
     <string name="app_name">Aidl Client</string>
     <string name="btn_label_get_current_time">Get Current Time</string>
+    <string name="btn_label_show_toast">Show Toast</string>
 
 </resources>

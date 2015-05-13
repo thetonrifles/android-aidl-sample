@@ -4,4 +4,6 @@ interface IRemoteServiceBinder {
 
     long getCurrentTime();
 
+    void showToast();
+
 }
