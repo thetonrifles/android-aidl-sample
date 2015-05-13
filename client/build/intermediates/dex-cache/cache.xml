@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/andrea/Desktop/aidl/client/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="/Users/andrea/Desktop/aidl/client/app/build/intermediates/pre-dexed/debug/classes-1ab889cf25d2756a194a53992bd4bdb22d9c87cf.jar" />
+    </item>
+    <item
+        jar="/Users/andrea/dev/adt/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="/Users/andrea/Desktop/aidl/client/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-535c18c6cf2a1989b86aa4b4cbcfdab247360a77.jar" />
+    </item>
+    <item
+        jar="/Users/andrea/Desktop/aidl/client/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="/Users/andrea/Desktop/aidl/client/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-856456b0ff8646b9cf715478eb041089ed2ba868.jar" />
+    </item>
+    <item
+        jar="/Users/andrea/Desktop/aidl/client/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="/Users/andrea/Desktop/aidl/client/app/build/intermediates/pre-dexed/debug/classes-baab74c5174af751c98589767b4c188742726b64.jar" />
+    </item>
+
+</items>
