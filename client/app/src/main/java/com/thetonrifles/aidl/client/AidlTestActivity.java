@@ -22,9 +22,11 @@ public class AidlTestActivity extends ActionBarActivity {
     // ui elements
     private Button mButtonGetTime;
 
-    // service connection
+    // aidl service connection and binder
     private IRemoteServiceBinder mRemoteServiceBinder;
     private ServiceConnection mRemoteServiceConnection;
+
+    // aidl service is bounded?
     private boolean mBound;
 
     @Override
@@ -41,11 +43,13 @@ public class AidlTestActivity extends ActionBarActivity {
             public void onClick(View v) {
                 try {
                     if (mRemoteServiceBinder != null) {
+                        // invoking remote method through aidl interface
                         String msg = "" + mRemoteServiceBinder.getCurrentTime();
                         Toast.makeText(v.getContext(), msg, Toast.LENGTH_SHORT).show();
                     }
                 } catch (RemoteException ex) {
                     Log.e(LOG_TAG, "remote exception");
+                    Log.e(LOG_TAG, ex.getMessage(), ex);
                 }
             }
 
@@ -57,23 +61,23 @@ public class AidlTestActivity extends ActionBarActivity {
             public void onServiceConnected(ComponentName name, IBinder service) {
                 Log.d(LOG_TAG, "remote service connected");
                 mBound = true;
+                // getting access to aidl interface after connecting to server
                 mRemoteServiceBinder = IRemoteServiceBinder.Stub.asInterface(service);
             }
 
             @Override
             public void onServiceDisconnected(ComponentName name) {
-                Log.d(LOG_TAG, "remote service disconnected");
+                Log.d(LOG_TAG, "remote service disconnected for unspecified cause");
                 mBound = false;
             }
 
         };
     }
 
-
-
     @Override
     protected void onStart() {
         super.onStart();
+        // opening connection every time activity is started
         Log.d(LOG_TAG, "on start");
         if (!mBound) {
             Log.d(LOG_TAG, "binding service");
@@ -86,8 +90,10 @@ public class AidlTestActivity extends ActionBarActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        // closing connection every time activity is stopped
         Log.d(LOG_TAG, "on stop");
         if (mBound) {
+            Log.d(LOG_TAG, "remote service regularly disconnected");
             unbindService(mRemoteServiceConnection);
         }
     };
